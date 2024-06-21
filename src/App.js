@@ -1,23 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import { useState } from "react";
+import { useSelector,useDispatch } from "react-redux";
+import { fetchJoke } from "./jokeSlice";
 
 function App() {
+
+  const[category,setcategory] = useState("")
+
+  const dispatch = useDispatch()
+
+  const joke = useSelector((state)=> {
+    return state.joke.joke
+  })
+
+  const handlecategory = (e)=> {
+    setcategory(e.target.value)
+  }
+
+  const handleFetch = ()=> {
+    dispatch(fetchJoke(category))
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input type="text" onChange={handlecategory}/>
+      <button onClick={handleFetch}>Get Jokes</button>
+      <h1>{joke}</h1>
     </div>
   );
 }
